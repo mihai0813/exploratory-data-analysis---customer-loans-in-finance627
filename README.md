@@ -12,4 +12,4 @@ This requires standard python installation. [WIP]
 This file contains the code used to extract the data from the RDS dabatase onto the local machine as a csv file.
 
 ## License Information
-Standard.
+Standard license, the author of this repository is mihai0813.
