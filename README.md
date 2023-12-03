@@ -11,7 +11,7 @@ This requires standard python installation. [WIP]
 ### 1. db_utils.py
 This file contains several classes that have been used to work with the data.
 
-1. RDSDatabaseConnector
+RDSDatabaseConnector
 
     """
     Extracts the remote database to a csv on the local machine.
@@ -41,7 +41,7 @@ This file contains several classes that have been used to work with the data.
         Saves the previously obtained data frame to the current directory as a csv file.
     """
 
-2. DataTransform
+DataTransform
 
     """
     Transforms the data types of the columns in the dataframe.
@@ -65,7 +65,7 @@ This file contains several classes that have been used to work with the data.
         Change ISSUE_DATE, EARLIEST_CREDIT_LINE, LAST_PAYMENT_DATE, NEXT_PAYMENT_DATE, LAST_CREDIT_PULL_DATE to datetime64.
     """
 
-3. DataFrameInfo
+DataFrameInfo
 
     """
     This class defines some methods that can be used to get information from the dataframe.
@@ -96,7 +96,7 @@ This file contains several classes that have been used to work with the data.
     The above methods can also be used on specific columns of the dataframe if only data for some is required.
     """
 
-4. Plotter
+Plotter
 
     """
     This class defines some methods to plot information from the dataframe.
@@ -123,7 +123,7 @@ This file contains several classes that have been used to work with the data.
         This is best used for one column of the data frame at a time like: df["column name"].
     """
 
-5. DataFrameTransform
+DataFrameTransform
 
     """
     This class defines some methods to transform the data in the dataframe.
