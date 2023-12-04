@@ -323,3 +323,18 @@ def milestone4_task2():
     percentage = round((charged_off_count/36408) * 100, 2)
     print(f"The percentage of charged off loans is {percentage}")
 # milestone4_task2() - 15.3% is the percetage of charged off loans, amount paid was £37,400,589.
+
+# Milestone 4, Task 3
+# total_payment, loan_status, funded_amount, last_payment_amount, term, issue_date, last_payment_date, int_rate
+def milestone4_task3():
+    payments_df["term"] = payments_df["term"].str.replace(r'\D', '', regex=True).astype(np.float64)
+    payments_df["months_paid"] = (payments_df["last_payment_date"].dt.year - payments_df["issue_date"].dt.year) * 12 + (payments_df["last_payment_date"].dt.month - payments_df["issue_date"].dt.month)
+    charged_off = payments_df[(payments_df["loan_status"] == "Charged Off")]
+    payments_df["months_left"] = payments_df["term"] - payments_df["months_paid"]
+    charged_off["revenue_lost"] = charged_off["last_payment_amount"]*pow(1+(charged_off["int_rate"]/100), (payments_df["months_left"]/12))
+    revenue_lost_int = charged_off["revenue_lost"].sum()
+    print(f"The amount of revenue lost on charged off loans due to interest is £{round(revenue_lost_int, 2)}")
+    charged_off["unpaid_loss"] = charged_off["last_payment_amount"]*payments_df["months_left"]
+    revenue_lost_total = charged_off["unpaid_loss"].sum() + revenue_lost_int
+    print(f"The total amount lost is £{round(revenue_lost_total, 2)}")
+# milestone4_task3() - £38,978.40 is lost due to interest, £680297.51 is lost overall.
