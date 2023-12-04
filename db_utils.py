@@ -298,3 +298,28 @@ new_payments_df.corr(numeric_only=True)
 new_payments_df = new_payments_df.drop(["funded_amount_inv", "instalment", "total_payment", "total_payment_inv", "total_rec_int", "out_prncp_inv"], axis = 1)
 DataFrameInfo(new_payments_df).df_shape(new_payments_df)
 # When running the above function we can see that the 6 columns have been removed.
+# Save the transformed data base to a csv file.
+# new_payments_df.to_csv("transformed_data.csv")
+
+# Milestone 4, Task 1
+# total_payment, funded_amount_inv, funded_amount
+def milestone4_task1():
+    total_payment = payments_df["total_payment"].sum()
+    funded_amount = payments_df["funded_amount"].sum()
+    percentage_recovered = (total_payment / funded_amount) * 100
+    print(f"The percentage of money recovered is{percentage_recovered}")
+    df = pd.DataFrame([total_payment, funded_amount])
+    df.plot(kind = "bar", title="Amount paid back vs Amount funded")
+    plt.show()
+# milestone4_task1() - 91.3% of the loans have been recovered.
+
+# Milestone 4, Task 2
+# total_payment, loan_status, funded_amount
+def milestone4_task2():
+    charged_off_total = payments_df.loc[payments_df["loan_status"] == "Charged Off", "total_payment"].sum()
+    charged_off_count = payments_df[(payments_df["loan_status"] == "Charged Off")].shape[0]
+    print(f"The amount of charged off loans is {charged_off_count}")
+    print(f"The amount of money paid towards these loans is £{round(charged_off_total, 2)}")
+    percentage = round((charged_off_count/36408) * 100, 2)
+    print(f"The percentage of charged off loans is {percentage}")
+# milestone4_task2() - 15.3% is the percetage of charged off loans, amount paid was £37,400,589.
