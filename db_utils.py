@@ -307,7 +307,7 @@ def milestone4_task1():
     total_payment = payments_df["total_payment"].sum()
     funded_amount = payments_df["funded_amount"].sum()
     percentage_recovered = (total_payment / funded_amount) * 100
-    print(f"The percentage of money recovered is{percentage_recovered}")
+    print(f"The percentage of money recovered is{percentage_recovered}%")
     df = pd.DataFrame([total_payment, funded_amount])
     df.plot(kind = "bar", title="Amount paid back vs Amount funded")
     plt.show()
@@ -321,7 +321,7 @@ def milestone4_task2():
     print(f"The amount of charged off loans is {charged_off_count}")
     print(f"The amount of money paid towards these loans is £{round(charged_off_total, 2)}")
     percentage = round((charged_off_count/36408) * 100, 2)
-    print(f"The percentage of charged off loans is {percentage}")
+    print(f"The percentage of charged off loans is {percentage}%")
 # milestone4_task2() - 15.3% is the percetage of charged off loans, amount paid was £37,400,589.
 
 # Milestone 4, Task 3
@@ -338,3 +338,21 @@ def milestone4_task3():
     revenue_lost_total = charged_off["unpaid_loss"].sum() + revenue_lost_int
     print(f"The total amount lost is £{round(revenue_lost_total, 2)}")
 # milestone4_task3() - £38,978.40 is lost due to interest, £680297.51 is lost overall.
+
+# Milestone 4, Task 4
+# total_payment, loan_status, funded_amount, last_payment_amount, term, issue_date, last_payment_date, int_rate
+def milestone4_task4(revenue_lost_total):
+    late_count = payments_df[(payments_df["loan_status"] == "Late (16-30 days)") | (payments_df["loan_status"] == "Late (31-120 days)")].shape[0]
+    print(f"The number of late payments is {late_count}")
+    percentage_late = round((late_count/36408) * 100, 2)
+    print(f"The percentage of late payments out of the total is {percentage_late}%")
+    payments_df["term"] = payments_df["term"].str.replace(r'\D', '', regex=True).astype(np.float64)
+    payments_df["months_paid"] = (payments_df["last_payment_date"].dt.year - payments_df["issue_date"].dt.year) * 12 + (payments_df["last_payment_date"].dt.month - payments_df["issue_date"].dt.month)
+    payments_df["months_left"] = payments_df["term"] - payments_df["months_paid"]
+    late_payments = payments_df[(payments_df["loan_status"] == "Late (16-30 days)") | (payments_df["loan_status"] == "Late (31-120 days)")]
+    late_payments["revenue_lost"] = late_payments["last_payment_amount"]*late_payments["months_left"]
+    revenue_lost = late_payments["revenue_lost"].sum()
+    print(f"The potential revenue loss if late customers were charged off is £{round(revenue_lost, 2)}")
+    revenue_lost_total = revenue_lost_total + revenue_lost
+    print(f"The potential revenue loss if late customers were charged off and current charged off customers is £{round(revenue_lost_total, 2)}")
+# milestone4_task4(680297.51) - 1.88% of payments are late, £52,970.53 would be lost if late customers would be charged off, including already charged off customers this totals up to £733268.04.
