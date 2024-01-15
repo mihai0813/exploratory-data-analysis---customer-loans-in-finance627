@@ -2,10 +2,7 @@
 This project is for the AiCore Data Analyst bootcamp. It is used to perform exploratory data analysis on a sample database.
 
 ## Installation instructions
-This requires standard python installation. [WIP]
-
-## Usage Instructions
-[WIP]
+This requires standard python installation.
 
 ## File structure
 ### 1. db_utils.py
