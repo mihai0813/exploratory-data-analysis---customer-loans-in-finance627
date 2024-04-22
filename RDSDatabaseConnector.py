@@ -1,3 +1,19 @@
+import yaml
+import psycopg2
+import pandas as pd
+from sqlalchemy import create_engine
+import matplotlib.pyplot as plt
+import numpy as np
+
+def credentials():
+    with open("credentials.yaml", "r") as stream:
+        try:
+            cred = yaml.safe_load(stream)
+            return cred
+        except yaml.YAMLError:
+            print(yaml.YAMLError)
+
+
 class RDSDatabaseConnector:
     """
     Extracts the remote database to a csv on the local machine.
