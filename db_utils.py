@@ -82,9 +82,11 @@ class DataTransform:
 
     Methods:
     ----------
-    change_data_types(df)
-        This function changes the data types of the columns as follows:
+    change_data_type_category(df)
+        This function changes the data types of the following columns to category:
         Change TERM, GRADE, SUB_GRADE, EMPLOYMENT_LENGTH, HOME_OWNERSHIP, VERIFICATION_STATUS, LOAN_STATUS, PAYMENT_PLAN, PURPOSE, APPLICATION_TYPE to category.
+    change_data_type_datetime(df)
+        This function changes the data types of the following columns to datetime64:
         Change ISSUE_DATE, EARLIEST_CREDIT_LINE, LAST_PAYMENT_DATE, NEXT_PAYMENT_DATE, LAST_CREDIT_PULL_DATE to datetime64.
     """
 
@@ -93,15 +95,17 @@ class DataTransform:
         self.df = df
 
     # Methods
-    def change_data_types(self, df):
+    def change_data_type_category(self, df):
         for column in ["term", "grade", "sub_grade", "employment_length", "home_ownership", "verification_status", "loan_status", "payment_plan", "purpose", "application_type"]:
             df[column] = df[column].astype("category")
+        return df
+    def change_data_type_datetime(self, df):
         for column in ["issue_date", "earliest_credit_line", "last_payment_date", "next_payment_date", "last_credit_pull_date"]:
             df[column] = pd.to_datetime(df[column], format = "%d/%m/%Y")
         return df
 
-
-payments_df = DataTransform(csv_to_df()).change_data_types(csv_to_df())
+payments_df = DataTransform(csv_to_df()).change_data_type_category(csv_to_df())
+payments_df = DataTransform(payments_df).change_data_type_datetime(payments_df)
 
 
 class DataFrameInfo:
